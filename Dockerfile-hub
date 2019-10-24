@@ -1,0 +1,25 @@
+FROM mcr.microsoft.com/dotnet/core/sdk:3.0-alpine AS build
+WORKDIR /app
+
+# Copy csproj and restore as distinct layers
+COPY ChatHub/ChatHub.csproj ./
+COPY AppHub/AppHub.csproj /AppHub/
+COPY *.config ./
+RUN dotnet restore --packages packages
+
+# Copy everything else and build
+COPY . .
+WORKDIR /app/ChatHub
+RUN dotnet publish -c Release -o out
+
+# COPY . ./
+# RUN dotnet ef migrations add InitialCreate
+
+# COPY . ./
+# RUN dotnet ef database update
+
+# Build runtime image
+FROM microsoft/dotnet:aspnetcore-runtime
+WORKDIR /app
+COPY --from=build /app/ChatHub/out .
+ENTRYPOINT ["dotnet", "ChatHub.dll"]
