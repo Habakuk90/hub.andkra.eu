@@ -45,6 +45,7 @@ namespace ChatHub
 
             services.AddSignalR();
             services.AddLogging();
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -67,6 +68,8 @@ namespace ChatHub
 
                 //FIXME: LOGGER HERE plese
             });
+
+            app.UseMvc();
         }
     }
 }
