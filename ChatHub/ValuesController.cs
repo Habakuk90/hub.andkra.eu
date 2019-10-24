@@ -43,4 +43,14 @@ namespace ChatHub
         {
         }
     }
+
+    [Route("/")]
+    public class HomeController : Controller
+    {
+        [HttpGet]
+        public ActionResult Index()
+        {
+            return Json("hi");
+        }
+    }
 }
