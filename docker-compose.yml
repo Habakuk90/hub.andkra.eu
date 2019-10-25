@@ -20,6 +20,7 @@ services:
       context: .
       dockerfile: Dockerfile-hub
       args:
+        - "project_name=ChatHub"
         - 'MAVEN_PASSWORD=$MAVEN_PASSWORD'
     volumes:
       - ./hub-envoy.yaml:/etc/hub-envoy.yaml
@@ -29,13 +30,14 @@ services:
           - chathub
     environment:
       - HUB_NAME=chathub
-      - PROJECT_NAME=ChatHub
     expose:
       - "80"
   gamehub:
     build:
       context: .
       dockerfile: Dockerfile-hub
+      args:
+        - "project_name=GameHub"
     volumes:
       - ./hub-envoy.yaml:/etc/hub-envoy.yaml
     networks:
@@ -44,7 +46,6 @@ services:
           - gamehub
     environment:
       - HUB_NAME=gamehub
-      - PROJECT_NAME=ChatHub
     expose:
       - "80"
 

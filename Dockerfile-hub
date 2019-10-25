@@ -1,15 +1,15 @@
 FROM mcr.microsoft.com/dotnet/core/sdk:3.0-alpine AS build
 WORKDIR /app
-
+ARG project_name
 # Copy csproj and restore as distinct layers
-COPY $PROJECT_NAME/*.csproj ./
+COPY $project_name/*.csproj ./
 COPY AppHub/AppHub.csproj /AppHub/
 COPY *.config ./
 RUN dotnet restore --packages packages
 
 # Copy everything else and build
 COPY . .
-WORKDIR /app/$PROJECT_NAME
+WORKDIR /app/$project_name
 RUN dotnet publish -c Release -o out
 
 # COPY . ./
@@ -22,5 +22,6 @@ RUN dotnet publish -c Release -o out
 FROM microsoft/dotnet:aspnetcore-runtime
 WORKDIR /app/
 
-COPY --from=build /app/$PROJECT_NAME/out .
-ENTRYPOINT ["dotnet", "$PROJECT_NAME.dll"]
+ARG project_name
+COPY --from=build /app/$project_name/out .
+ENTRYPOINT ["dotnet", "${project_name}.dll"]
