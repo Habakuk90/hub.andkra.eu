@@ -3,6 +3,7 @@ using System.IO;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -46,7 +47,7 @@ namespace ChatHub
 
             services.AddSignalR();
             services.AddLogging();
-            services.AddMvc();
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.Configure<ForwardedHeadersOptions>(options =>
             {
                 options.ForwardedHeaders =
@@ -68,6 +69,8 @@ namespace ChatHub
             {
                 routes.MapHub<ChatHub>("/chath");
             });
+            
+            app.UseMvc();
             app.Run(async (context) =>
             {
                 //await context.Response.WriteAsync("Hello World!");
@@ -75,7 +78,6 @@ namespace ChatHub
                 //FIXME: LOGGER HERE plese
             });
 
-            app.UseMvc();
         }
     }
 }

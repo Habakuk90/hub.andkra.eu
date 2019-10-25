@@ -17,10 +17,9 @@ static_resources:
             - name: backend
               domains:
               - "api.andkra.eu"
-              - "www.andkra.eu"
               routes:
               - match:
-                  prefix: "/chath"
+                  prefix: "/chathub"
                 route:
                   cluster: chathub
               # - match:
@@ -35,7 +34,10 @@ static_resources:
     connect_timeout: 0.25s
     type: strict_dns
     lb_policy: round_robin
-    http2_protocol_options: {}
+    # http2_protocol_options: {}
+    # upstream_connection_options:
+    #   tcp_keepalive:
+    #     keepalive_time: 300
     load_assignment:
       cluster_name: chathub
       endpoints:

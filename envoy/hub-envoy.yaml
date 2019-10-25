@@ -14,12 +14,12 @@ static_resources:
           route_config:
             name: local_route
             virtual_hosts:
-            - name: service
+            - name: chathub
               domains:
               - "*"
               routes:
               - match:
-                  prefix: "/chath"
+                  prefix: "/chathub"
                 route:
                   cluster: local_service
           http_filters:
@@ -30,6 +30,10 @@ static_resources:
     connect_timeout: 0.25s
     type: strict_dns
     lb_policy: round_robin
+    http2_protocol_options: {}
+      upstream_connection_options:
+        tcp_keepalive:
+          keepalive_time: 300
     load_assignment:
       cluster_name: local_service
       endpoints:
