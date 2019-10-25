@@ -22,10 +22,10 @@ static_resources:
                   prefix: "/chathub"
                 route:
                   cluster: chathub
-              # - match:
-              #     prefix: "/service/2"
-              #   route:
-              #     cluster: service2
+              - match:
+                  prefix: "/gamehub"
+                route:
+                  cluster: gamehub
           http_filters:
           - name: envoy.router
             typed_config: {}
@@ -47,20 +47,20 @@ static_resources:
               socket_address:
                 address: chathub
                 port_value: 80
-  # - name: service2
-  #   connect_timeout: 0.25s
-  #   type: strict_dns
-  #   lb_policy: round_robin
-  #   http2_protocol_options: {}
-  #   load_assignment:
-  #     cluster_name: service2
-  #     endpoints:
-  #     - lb_endpoints:
-  #       - endpoint:
-  #           address:
-  #             socket_address:
-  #               address: service2
-  #               port_value: 80
+  - name: gamehub
+    connect_timeout: 0.25s
+    type: strict_dns
+    lb_policy: round_robin
+    http2_protocol_options: {}
+    load_assignment:
+      cluster_name: gamehub
+      endpoints:
+      - lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: gamehub
+                port_value: 80
 admin:
   access_log_path: "/dev/null"
   address:
