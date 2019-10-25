@@ -21,5 +21,7 @@ RUN dotnet publish -c Release -o out
 # Build runtime image
 FROM microsoft/dotnet:aspnetcore-runtime
 WORKDIR /app/
+
+ARG project_name
 COPY --from=build /app/$project_name/out .
 ENTRYPOINT ["dotnet", "${project_name}.dll"]
