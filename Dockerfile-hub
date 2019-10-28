@@ -18,7 +18,7 @@ RUN dotnet restore
 COPY ./$project_name/ ./$project_name
 COPY ./AppHub ./AppHub
 
-RUN dotnet build "./${project_name}/*.csproj" -c Release
+RUN dotnet build "./${project_name}/${project_name}.csproj" -c Release
 
 # Copy everything else and build
 # COPY . .
