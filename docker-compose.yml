@@ -12,6 +12,7 @@ services:
     expose:
       - "80"
       - "8001"
+# these ports are available for your machine. change to 80:80 if on production.
     ports:
       - "8000:80"
       - "8001:8001"
@@ -21,7 +22,6 @@ services:
       dockerfile: Dockerfile-hub
       args:
         - "project_name=ChatHub"
-        - 'MAVEN_PASSWORD=$MAVEN_PASSWORD'
     volumes:
       - ./hub-envoy.yaml:/etc/hub-envoy.yaml
     networks:
@@ -29,7 +29,7 @@ services:
         aliases:
           - chathub
     environment:
-      - HUB_NAME=chathub
+      - HUB_NAME=ChatHub
     expose:
       - "80"
   gamehub:
@@ -45,7 +45,7 @@ services:
         aliases:
           - gamehub
     environment:
-      - HUB_NAME=gamehub
+      - HUB_NAME=GameHub
     expose:
       - "80"
 

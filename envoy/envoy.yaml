@@ -16,16 +16,18 @@ static_resources:
             virtual_hosts:
             - name: backend
               domains:
-              - "api.andkra.eu"
+              - "*"
               routes:
               - match:
-                  prefix: "/chathub"
+                  prefix: "/api/chat"
                 route:
                   cluster: chathub
+                  use_websocket: true
               - match:
-                  prefix: "/gamehub"
+                  prefix: "/api/game"
                 route:
                   cluster: gamehub
+                  use_websocket: true
           http_filters:
           - name: envoy.router
             typed_config: {}
@@ -61,6 +63,7 @@ static_resources:
               socket_address:
                 address: gamehub
                 port_value: 80
+  use_websockets: true
 admin:
   access_log_path: "/dev/null"
   address:

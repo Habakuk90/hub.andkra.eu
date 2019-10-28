@@ -2,15 +2,28 @@ FROM mcr.microsoft.com/dotnet/core/sdk:3.0-alpine AS build
 WORKDIR /app
 ARG project_name
 # Copy csproj and restore as distinct layers
-COPY $project_name/*.csproj ./
+COPY ./*.sln ./nuget.config /*.props /*.targets ./
+
+# Copy the main source project files
+# COPY /*/*.csproj ./
+COPY /*/*.csproj ./
+RUN ls
 COPY AppHub/AppHub.csproj /AppHub/
-COPY *.config ./
-RUN dotnet restore --packages packages
+
+RUN for file in $(ls *.csproj); do mkdir -p ./${file%.*}/ && mv $file ./${file%.*}/; done
+# COPY *.config ./
+RUN ls
+
+RUN dotnet restore
+COPY ./$project_name/ ./$project_name
+COPY ./AppHub ./AppHub
+
+RUN dotnet build -c Release
 
 # Copy everything else and build
-COPY . .
-WORKDIR /app/$project_name
-RUN dotnet publish -c Release -o out
+# COPY . .
+
+RUN dotnet publish "./${project_name}/${project_name}.csproj" -c Release -o out
 
 # COPY . ./
 # RUN dotnet ef migrations add InitialCreate
@@ -24,4 +37,6 @@ WORKDIR /app/
 
 ARG project_name
 COPY --from=build /app/$project_name/out .
-ENTRYPOINT ["dotnet", "${project_name}.dll"]
+
+# https://stackoverflow.com/questions/37904682/how-do-i-use-docker-environment-variable-in-entrypoint-array
+ENTRYPOINT dotnet "${HUB_NAME}.dll"

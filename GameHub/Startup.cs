@@ -7,6 +7,7 @@ namespace GameHub
     using System.IO;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.HttpOverrides;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
@@ -47,6 +48,11 @@ namespace GameHub
 
             services.AddSignalR();
             services.AddLogging();
+            services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.ForwardedHeaders =
+                    ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -61,7 +67,7 @@ namespace GameHub
             app.UseCors("LocalCorsPolicy");
             app.UseSignalR(routes =>
             {
-                routes.MapHub<GameHub>("/gameh");
+                routes.MapHub<GameHub>("/api/game");
             });
             app.Run(async (context) =>
             {

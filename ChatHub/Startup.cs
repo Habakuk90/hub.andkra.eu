@@ -67,7 +67,7 @@ namespace ChatHub
             app.UseCors("LocalCorsPolicy");
             app.UseSignalR(routes =>
             {
-                routes.MapHub<ChatHub>("/chath");
+                routes.MapHub<ChatHub>("/api/chat");
             });
             
             app.UseMvc();

@@ -5,7 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ChatHub
 {
-    [Route("chathub/[controller]")]
+    // TODO: prefix always with /api/chat here
+    [Route("api/chat/[controller]")]
     [ApiController]
     public class ValuesController : ControllerBase
     {
