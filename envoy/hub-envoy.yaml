@@ -22,6 +22,8 @@ static_resources:
                   prefix: "/api"
                 route:
                   cluster: local_service
+                  upgrade_configs: 
+                    upgrade_type: websocket
           http_filters:
           - name: envoy.router
             typed_config: {}

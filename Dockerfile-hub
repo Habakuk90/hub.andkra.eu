@@ -36,7 +36,7 @@ FROM microsoft/dotnet:aspnetcore-runtime
 WORKDIR /app/
 
 ARG project_name
-COPY --from=build /app/$project_name/out .
+COPY --from=build /app/out .
 
 # https://stackoverflow.com/questions/37904682/how-do-i-use-docker-environment-variable-in-entrypoint-array
 ENTRYPOINT dotnet "${HUB_NAME}.dll"
