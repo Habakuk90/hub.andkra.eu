@@ -22,12 +22,14 @@ static_resources:
                   prefix: "/api/chat"
                 route:
                   cluster: chathub
-                  use_websocket: true
+                  upgrade_configs: 
+                    upgrade_type: websocket
               - match:
                   prefix: "/api/game"
                 route:
                   cluster: gamehub
-                  use_websocket: true
+                  upgrade_configs: 
+                    upgrade_type: websocket
           http_filters:
           - name: envoy.router
             typed_config: {}
