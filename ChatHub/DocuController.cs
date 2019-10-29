@@ -40,7 +40,7 @@
                 Name = info.Name,
                 ReturnType = info.ReturnType.Name,
                 Parameters = parameters,
-                wat = info.DeclaringType.BaseType?.Name
+                BaseType = info.DeclaringType.BaseType?.Name
             };
         }
 
