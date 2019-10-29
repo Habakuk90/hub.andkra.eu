@@ -18,7 +18,7 @@
         {
             await this.Clients.All.SendMessage(this.Context.ConnectionId);
 
-            await this.Clients.All.SendMessage("Hi from Chathub");
+            await this.Clients.All.SendMessage("Hi from GameHub");
 
             return message;
         }

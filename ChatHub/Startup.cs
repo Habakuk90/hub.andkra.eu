@@ -58,6 +58,7 @@ namespace ChatHub
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseForwardedHeaders();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -69,7 +70,8 @@ namespace ChatHub
             {
                 routes.MapHub<ChatHub>("/api/chat");
             });
-            
+
+            // using mvc here, to enable connectio to the values controller, testing and stuff
             app.UseMvc();
             app.Run(async (context) =>
             {

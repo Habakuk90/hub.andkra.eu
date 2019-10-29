@@ -11,10 +11,11 @@ static_resources:
           "@type": type.googleapis.com/envoy.config.filter.network.http_connection_manager.v2.HttpConnectionManager
           codec_type: auto
           stat_prefix: ingress_http
+          use_remote_address: true
           route_config:
             name: local_route
             virtual_hosts:
-            - name: chathub
+            - name: hub
               domains:
               - "*"
               routes:
@@ -26,7 +27,12 @@ static_resources:
                     upgrade_type: websocket
           http_filters:
           - name: envoy.router
-            typed_config: {}
+            config: 
+              http_service:
+                allowed_authorization_headers:
+                - x-forwarded-for
+                allowed_request_headers:
+                - x-forwarded-for 
   clusters:
   - name: local_service
     connect_timeout: 0.25s
