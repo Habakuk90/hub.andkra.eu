@@ -8,17 +8,13 @@ namespace ChatHub
     {
         public async Task<string> BroadcastMessage(string message)
         {
-            await this.Clients.All.SendMessage(this.Context.ConnectionId);
-
-            await this.Clients.All.SendMessage("Hi from Chathub");
+            await this.Clients.All.SendMessage(message);
 
             return message;
         }
 
         public override Task OnConnectedAsync()
         {
-            this.Context.Items.Add("foo", "baar");
-
             return base.OnConnectedAsync();
         }
     }
