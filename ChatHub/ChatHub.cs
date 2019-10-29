@@ -12,17 +12,10 @@ namespace ChatHub
 
             return message;
         }
-
-        public override Task OnConnectedAsync()
-        {
-            return base.OnConnectedAsync();
-        }
     }
 
     public interface IChatClient : IAppClient
     {
         Task SendMessage(string message);
-
-        Task SendMessage(IDictionary<object, object> items);
     }
 }
