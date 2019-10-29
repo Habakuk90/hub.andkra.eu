@@ -1,0 +1,30 @@
+FROM mcr.microsoft.com/dotnet/core/sdk:3.0-alpine AS build
+WORKDIR /app
+ARG project_name
+# Copy csproj and restore as distinct layers
+COPY ./nuget.config /*.props /*.targets ./
+
+# Copy the main source project files
+# COPY /*/*.csproj ./
+COPY $project_name/*.csproj ./
+COPY AppHub/AppHub.csproj /AppHub/
+
+# dotnet restore to enable cache by adding a layer
+RUN dotnet restore
+
+# copy needed files
+COPY ./$project_name/ ./$project_name
+COPY ./AppHub ./AppHub
+
+# build the project
+RUN dotnet build "./${project_name}/${project_name}.csproj" -c Release
+
+RUN dotnet publish "./${project_name}/${project_name}.csproj" -c Release -o out --no-restore
+
+# Build runtime image
+FROM microsoft/dotnet:aspnetcore-runtime
+WORKDIR /app/
+COPY --from=build /app/out .
+
+# https://stackoverflow.com/questions/37904682/how-do-i-use-docker-environment-variable-in-entrypoint-array
+ENTRYPOINT dotnet "${HUB_NAME}.dll"

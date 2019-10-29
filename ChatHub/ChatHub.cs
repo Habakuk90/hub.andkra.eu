@@ -10,7 +10,7 @@ namespace ChatHub
         {
             await this.Clients.All.SendMessage(this.Context.ConnectionId);
 
-            await this.Clients.All.SendMessage(this.Context.Items);
+            await this.Clients.All.SendMessage("Hi from Chathub");
 
             return message;
         }

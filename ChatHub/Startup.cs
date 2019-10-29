@@ -2,6 +2,8 @@
 using System.IO;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -45,11 +47,18 @@ namespace ChatHub
 
             services.AddSignalR();
             services.AddLogging();
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.ForwardedHeaders =
+                    ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseForwardedHeaders();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -59,14 +68,18 @@ namespace ChatHub
             app.UseCors("LocalCorsPolicy");
             app.UseSignalR(routes =>
             {
-                routes.MapHub<ChatHub>("/chath");
+                routes.MapHub<ChatHub>("/api/chat");
             });
+
+            // using mvc here, to enable connectio to the values controller, testing and stuff
+            app.UseMvc();
             app.Run(async (context) =>
             {
                 //await context.Response.WriteAsync("Hello World!");
 
                 //FIXME: LOGGER HERE plese
             });
+
         }
     }
 }
