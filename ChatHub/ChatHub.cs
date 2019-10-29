@@ -6,11 +6,9 @@ namespace ChatHub
 {
     public class ChatHub : AppHub<IChatClient>
     {
-        public async Task<string> BroadcastMessage(string message)
+        public async Task BroadcastMessage(string message)
         {
             await this.Clients.All.SendMessage(message);
-
-            return message;
         }
     }
 
