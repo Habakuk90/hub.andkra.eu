@@ -6,23 +6,14 @@ namespace ChatHub
 {
     public class ChatHub : AppHub<IChatClient>
     {
-        public async Task<string> BroadcastMessage(string message)
+        public async Task BroadcastMessage(string message)
         {
             await this.Clients.All.SendMessage(message);
-
-            return message;
-        }
-
-        public override Task OnConnectedAsync()
-        {
-            return base.OnConnectedAsync();
         }
     }
 
     public interface IChatClient : IAppClient
     {
         Task SendMessage(string message);
-
-        Task SendMessage(IDictionary<object, object> items);
     }
 }

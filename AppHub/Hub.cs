@@ -18,38 +18,6 @@ namespace AppHub
         public AppHub()
         {
         }
-        #region public abstract
-
-        /// <summary>
-        /// Join Group hub method.
-        /// </summary>
-        /// <param name="groupName">
-        /// given name for group from frontend
-        /// </param>
-        /// <returns>
-        /// Same groupname
-        /// </returns>
-        //public abstract Task<string> JoinGroup(string groupName);
-
-        ///// <summary>
-        ///// Leave Group Hub method.
-        ///// </summary>
-        ///// <param name="groupName">
-        ///// Given name for group from frontend.
-        ///// </param>
-        //public abstract Task<string> LeaveGroup(string groupName);
-
-        ///// <summary>
-        ///// Marks Current user as online, if new user, add to DB
-        ///// </summary>
-        ///// <param name="userName">
-        ///// userName of current User.
-        ///// </param>
-        //public abstract Task AddCurrentUser(string userName, bool isAnonymous = true);
-
-        #endregion
-
-        #region public override
 
         /// <summary>
         /// Defines what happens when frontend user connects.
@@ -57,6 +25,7 @@ namespace AppHub
         /// <returns></returns>
         public override async Task OnConnectedAsync()
         {
+            await base.Clients.Caller.LogClient("Hi you are connected on " + typeof(T).Name);
             await base.OnConnectedAsync();
         }
 
@@ -74,7 +43,5 @@ namespace AppHub
         {
             base.Dispose(disposing);
         }
-
-        #endregion
     }
 }

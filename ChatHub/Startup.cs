@@ -39,7 +39,7 @@ namespace ChatHub
                                         .AllowCredentials());
 
                 options.AddPolicy("ProdCorsPolicy",
-                    builder => builder.WithOrigins("https://ttt-app.azurewebsites.net")
+                    builder => builder.WithOrigins("http://app.andkra.eu")
                                         .AllowAnyMethod()
                                         .AllowAnyHeader()
                                         .AllowCredentials());
@@ -65,7 +65,11 @@ namespace ChatHub
                 app.UseCors("LocalCorsPolicy");
 
             }
-            app.UseCors("LocalCorsPolicy");
+            else
+            {
+                app.UseCors("ProdCorsPolicy");
+            }
+
             app.UseSignalR(routes =>
             {
                 routes.MapHub<ChatHub>("/api/chat");
