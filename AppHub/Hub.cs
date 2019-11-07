@@ -25,7 +25,7 @@ namespace AppHub
         /// <returns></returns>
         public override async Task OnConnectedAsync()
         {
-            await base.Clients.Caller.LogClient("Hi you are connected on " + typeof (T).FullName);
+            await base.Clients.Caller.LogClient("Hi you are connected on " + typeof(T).Name);
             await base.OnConnectedAsync();
         }
 
