@@ -8,6 +8,7 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using UserService.Entities;
 
     public class Startup
     {
@@ -35,6 +36,9 @@
                     .UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddScoped(typeof(IEntityManager<>), typeof(EntityManager<>));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

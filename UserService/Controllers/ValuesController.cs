@@ -1,18 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-
-namespace UserService.Controllers
+﻿namespace UserService.Controllers
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc;
+    using UserService.Entities;
+    using UserService.Models;
+
     [Route("api/[controller]")]
     [ApiController]
     public class ValuesController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly IEntityManager<User> _context;
 
-        public ValuesController(AppDbContext context)
+        public ValuesController(IEntityManager<User> context)
         {
             this._context = context;
         }
@@ -32,15 +32,12 @@ namespace UserService.Controllers
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task PostAsync([FromBody] string value)
         {
-
-            _context.AppUser.Add(new Models.User
+            await this._context.AddOrUpdate(new User
             {
                 Name = value
             });
-
-            _context.SaveChanges();
         }
 
         // PUT api/values/5

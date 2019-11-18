@@ -1,12 +1,8 @@
 ﻿namespace UserService.Models
 {
-    using System;
-    using System.ComponentModel.DataAnnotations;
+    using UserService.Entities;
 
-    public class User
+    public class User : Entity
     {
-        [Key]
-        public Guid ID { get; set; }
-        public string Name { get; set; }
     }
 }
