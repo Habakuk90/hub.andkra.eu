@@ -37,11 +37,19 @@
         /// </returns>
         public virtual async Task<TEntity> Get(TEntity item)
         {
-            var entity = await this._context.Set<TEntity>().FindAsync(item);
+            TEntity entity = null;
 
-            return entity ?? null;
+            if (item.ID != Guid.Empty)
+            {
+                entity = await this._context.Set<TEntity>().FindAsync(item.ID);
+            }
+            else if (!string.IsNullOrWhiteSpace(item.Name))
+            {
+                entity = await this._context.Set<TEntity>().FirstOrDefaultAsync(x => x.Name == item.Name);
+            }
+
+            return entity;
         }
-
 
         public virtual async Task<IEnumerable<TEntity>> GetAll()
         {
@@ -59,7 +67,7 @@
         /// <returns>
         /// Asynchronous Task.
         /// </returns>
-        public virtual async Task AddOrUpdate(TEntity item)
+        public virtual async Task<TEntity> AddOrUpdate(TEntity item)
         {
             try
             {
@@ -73,6 +81,8 @@
                 }
 
                 await _context.SaveChangesAsync();
+
+                return item;
             }
             catch (Exception exception)
             {

@@ -1,5 +1,6 @@
 ﻿namespace UserService.Entities
 {
+    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using UserService.Models;
@@ -10,7 +11,7 @@
 
         Task<IEnumerable<T>> GetAll();
 
-        Task AddOrUpdate(T item);
+        Task<T> AddOrUpdate(T item);
 
         Task AddOrUpdate(IList<T> items);
 
