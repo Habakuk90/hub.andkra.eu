@@ -29,6 +29,22 @@
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // ===== Add Policy ========
+            services.AddCors(options =>
+            {
+                options.AddPolicy("LocalCorsPolicy",
+                    builder => builder.WithOrigins("http://localhost:4200")
+                                        .AllowAnyMethod()
+                                        .AllowAnyHeader()
+                                        .AllowCredentials());
+
+                options.AddPolicy("ProdCorsPolicy",
+                    builder => builder.WithOrigins("http://app.andkra.eu")
+                                        .AllowAnyMethod()
+                                        .AllowAnyHeader()
+                                        .AllowCredentials());
+            });
+
             // DB Connection DefaultConnection to be found in appsettings.json
             // ===== Add our DbContext ========
             services.AddDbContext<AppDbContext>(options =>
@@ -47,6 +63,11 @@
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseCors("LocalCorsPolicy");
+            }
+            else
+            {
+                app.UseCors("ProdCorsPolicy");
             }
 
             app.UseMvc();
