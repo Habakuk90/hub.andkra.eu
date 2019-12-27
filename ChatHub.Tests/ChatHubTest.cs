@@ -1,4 +1,3 @@
-
 namespace ChatHub.Tests
 {
     using System.Threading.Tasks;
@@ -7,7 +6,7 @@ namespace ChatHub.Tests
     using Moq;
 
     [TestClass]
-    public class UnitTest1
+    public class ChatHubTest
     {
         [TestMethod]
         public async Task OnBroadcast_Send_Message_To_All()

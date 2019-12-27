@@ -6,6 +6,5 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.AspNet.SignalR" Version="2.4.1" />
   </ItemGroup>
 </Project>
